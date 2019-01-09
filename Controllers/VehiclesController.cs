@@ -13,12 +13,12 @@ namespace Vincent.Controllers
     public class VehiclesController : Controller
     {
         private readonly IMapper mapper;
-        private readonly VincentDbContext context;
         private readonly IVehicleRepository repository;
-        public VehiclesController(IMapper mapper, VincentDbContext context, IVehicleRepository repository)
+        private readonly IUnitOfWork unitOfWork;
+        public VehiclesController(IMapper mapper, IVehicleRepository repository, IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
             this.repository = repository;
-            this.context = context;
             this.mapper = mapper;
         }
 
@@ -32,7 +32,7 @@ namespace Vincent.Controllers
             vehicle.LastUpdate = DateTime.Now;
 
             repository.Add(vehicle);
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
             vehicle = await repository.GetVehicle(vehicle.Id);
 
@@ -55,7 +55,9 @@ namespace Vincent.Controllers
             mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
+
+            vehicle = await repository.GetVehicle(vehicle.Id);
 
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
@@ -72,7 +74,7 @@ namespace Vincent.Controllers
 
             repository.Remove(vehicle);
 
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
             return Ok(id);
         }
