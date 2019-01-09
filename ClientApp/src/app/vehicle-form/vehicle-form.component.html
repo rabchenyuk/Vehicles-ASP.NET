@@ -1,4 +1,4 @@
-<!-- <h1>New Vehicle</h1>
+<h1>New Vehicle</h1>
 <p>
   {{ vehicle | json }}
 </p>
@@ -48,21 +48,21 @@
     <input id="contactEmail" type="text" class="form-control" [(ngModel)]="vehicle.contact.email" name="contactEmail">
   </div>
   <button class="btn btn-primary">Save</button>
-  <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
-</form> -->
+  <!-- <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button> -->
+</form>
 
-<h1>New Vehicle</h1>
+<!-- <h1>New Vehicle</h1>
 <form>
   <div class="form-group">
     <label for="make">Make</label>
-    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vehicle.make" name="make">
+    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vehicle.makeId" name="makeId">
       <option value=""></option>
       <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="model">Model</label>
-    <select id="model" class="form-control">
+    <select id="model" class="form-control" [(ngModel)]="vehicle.modelId" name="modelId">
       <option value=""></option>
       <option *ngFor="let m of models" value="{{ m.id }}">{{ m.name }}</option>
     </select>
@@ -94,4 +94,4 @@
     <input id="contactEmail" type="text" class="form-control">
   </div>
   <button class="btn btn-primary">Save</button>
-</form>
+</form> -->

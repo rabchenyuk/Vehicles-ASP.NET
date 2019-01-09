@@ -1,5 +1,6 @@
 import { VehicleService } from '../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
+import { ToastyService } from 'ng2-toasty';
 
 
 @Component({
@@ -11,10 +12,14 @@ export class VehicleFormComponent implements OnInit {
   makes: any[];
   models: any[];
   features: any[];
-  vehicle: any = {};
+  vehicle: any = {
+    features: [],
+    contact: {}
+  };
 
   constructor(
-    private vehicleService: VehicleService) { }
+    private vehicleService: VehicleService,
+    private toastyService: ToastyService) { }
 
   ngOnInit() {
     this.vehicleService.getMakes().subscribe(makes =>
@@ -25,8 +30,34 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onMakeChange() {
-    const selectedMake = this.makes.find(m => m.id == this.vehicle.make);
+    const selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
+    // to clear model field if make field has changed
+    delete this.vehicle.modelId;
+  }
+
+  onFeatureToggle(featureId, $event) {
+    if ($event.target.checked) {
+      this.vehicle.features.push(featureId);
+    } else {
+      const index = this.vehicle.features.indexOf(featureId);
+      this.vehicle.features.splice(index, 1);
+    }
+  }
+
+  submit() {
+    this.vehicleService.create(this.vehicle)
+      .subscribe(
+        x => console.log(x),
+        err => {
+          this.toastyService.error({
+            title: 'Error',
+            msg: 'An unexpected error happened.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+        });
   }
 
 }
