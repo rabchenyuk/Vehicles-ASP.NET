@@ -9,14 +9,13 @@ export class AppErrorHandler implements ErrorHandler {
     // to solve this problem - we use @Inject()
     constructor(
         private ngZone: NgZone,
-        @Inject(ToastyService) private toastyService: ToastyService) { }
+        @Inject(ToastyService) private toastyService: ToastyService) {}
 
     handleError(error: any): void {
-        if (!isDevMode) {
+        if (!isDevMode()) {
             Raven.captureException(error.originalError || error);
-        // } else {
-        //     throw error;
-        // }
+        } else {
+            throw error;
         }
 
         this.ngZone.run(() => {
