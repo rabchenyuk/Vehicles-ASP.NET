@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Vincent.Models;
+using Vincent.Core.Models;
+using Vincent.Core;
+using System.Linq;
 
 namespace Vincent.Persistence
 {
@@ -26,14 +28,27 @@ namespace Vincent.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
         {
-            return await context.Vehicles
+            var query = context.Vehicles
                 .Include(v => v.Features)
                     .ThenInclude(vf => vf.Feature)
                 .Include(v => v.Model)
                     .ThenInclude(m => m.Make)
-                .ToListAsync();
+                .AsQueryable();
+
+            if (filter.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);
+
+            // Without any filters
+            // return await context.Vehicles
+            //     .Include(v => v.Features)
+            //         .ThenInclude(vf => vf.Feature)
+            //     .Include(v => v.Model)
+            //         .ThenInclude(m => m.Make)
+            //     .ToListAsync();
+
+            return await query.ToListAsync();
         }
 
         public void Add(Vehicle vehicle)

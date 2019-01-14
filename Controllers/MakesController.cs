@@ -4,8 +4,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vincent.Controllers.Resources;
-using Vincent.Models;
-using Vincent.Persistence;
+using Vincent.Core.Models;
+using Vincent.Core;
 
 namespace Vincent.Controllers
 {

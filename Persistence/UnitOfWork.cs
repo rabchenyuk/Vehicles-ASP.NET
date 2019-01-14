@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Vincent.Core;
 
 namespace Vincent.Persistence
 {

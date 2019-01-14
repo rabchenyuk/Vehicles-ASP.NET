@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Vincent.Persistence
+namespace Vincent.Core
 {
     public interface IUnitOfWork
     {

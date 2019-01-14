@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Vincent.Models
+namespace Vincent.Core.Models
 {
     public class Feature
     {

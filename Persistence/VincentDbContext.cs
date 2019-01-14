@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Vincent.Models;
+using Vincent.Core.Models;
 
-namespace Vincent.Persistence
+namespace Vincent.Core
 {
     public class VincentDbContext : DbContext
     {

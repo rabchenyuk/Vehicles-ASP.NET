@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vincent.Models
+namespace Vincent.Core.Models
 {
     [Table("VehicleFeatures")]
     public class VehicleFeature
