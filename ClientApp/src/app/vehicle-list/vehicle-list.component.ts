@@ -12,6 +12,17 @@ export class VehicleListComponent implements OnInit {
   // allVehicles: Vehicle[];
   makes: KeyValuePair[];
   query: any = {};
+  // Render columns dynamically
+  columns = [
+    // Title: column to render
+    // Key: what to send to the server
+    // IsSortable: if this column is sortable
+    { title: 'Id' },
+    { title: 'Contact Name', key: 'contactName', isSortable: true },
+    { title: 'Make', key: 'make', isSortable: true },
+    { title: 'Model', key: 'model', isSortable: true },
+    { }
+  ];
 
   constructor(private vehicleService: VehicleService) { }
 

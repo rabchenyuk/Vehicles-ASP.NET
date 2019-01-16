@@ -16,25 +16,27 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Id</th>
-      <th (click)="sortBy('make')">
-        Make
-        <i *ngIf="query.sortBy === 'make'" 
+      <th *ngFor="let c of columns">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+          {{ c.title }}
+          <i *ngIf="query.sortBy === c.key" 
             class="fa"
             [class.fa-sort-asc]="query.isSortAscending"
-            [class.fa-sort-desc]="!query.isSortAscending"></i>
+            [class.fa-sort-desc]="!query.isSortAscending"
+          ></i>
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
       </th>
-      <th (click)="sortBy('model')">Model</th>
-      <th (click)="sortBy('contactName')">Contact Name</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let v of vehicles">
       <td>{{ v.id }}</td>
+      <td>{{ v.contact.name }}</td>
       <td>{{ v.make.name }}</td>
       <td>{{ v.model.name }}</td>
-      <td>{{ v.contact.name }}</td>
       <td>
         <a [routerLink]="['/vehicles/', v.id]">View</a>
       </td>
