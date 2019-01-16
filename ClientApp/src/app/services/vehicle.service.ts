@@ -36,7 +36,7 @@ export class VehicleService {
 
   toQueryString(obj) {
     const parts = [];
-    for (const property in obj) {
+    for (let property in obj) {
       let value = obj[property];
       if (value != null && value != undefined) {
         parts.push(encodeURIComponent(property) + '=' + encodeURIComponent(value));

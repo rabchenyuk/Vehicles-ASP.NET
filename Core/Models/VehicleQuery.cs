@@ -1,6 +1,8 @@
+using Vincent.Extensions;
+
 namespace Vincent.Core.Models
 {
-    public class VehicleQuery
+    public class VehicleQuery : IQueryObject
     {
         public int? MakeId { get; set; }
         public string SortBy { get; set; }

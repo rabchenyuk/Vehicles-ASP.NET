@@ -6,6 +6,7 @@ using Vincent.Core;
 using System.Linq;
 using System;
 using System.Linq.Expressions;
+using Vincent.Extensions;
 
 namespace Vincent.Persistence
 {
@@ -32,6 +33,15 @@ namespace Vincent.Persistence
 
         public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
         {
+            // Without any filters
+            // -----------------------------
+            // return await context.Vehicles
+            //     .Include(v => v.Features)
+            //         .ThenInclude(vf => vf.Feature)
+            //     .Include(v => v.Model)
+            //         .ThenInclude(m => m.Make)
+            //     .ToListAsync();
+
             #region Filtering
             // Server-side filtering
             var query = context.Vehicles
@@ -44,14 +54,6 @@ namespace Vincent.Persistence
             if (queryObj.MakeId.HasValue)
                 query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
 
-            // Without any filters
-            // -----------------------------
-            // return await context.Vehicles
-            //     .Include(v => v.Features)
-            //         .ThenInclude(vf => vf.Feature)
-            //     .Include(v => v.Model)
-            //         .ThenInclude(m => m.Make)
-            //     .ToListAsync();
             #endregion
 
             #region Sorting
@@ -68,6 +70,7 @@ namespace Vincent.Persistence
             
             // if (queryObj.SortBy == "id")
             //     query = (queryObj.IsSortAscending) ? query.OrderBy(v => v.Id) : query.OrderByDescending(v => v.Id);
+            // return await query.ToListAsync();
 
             // Server-side sorting
             // Better way
@@ -75,14 +78,10 @@ namespace Vincent.Persistence
             {
                 ["make"] = v => v.Model.Make.Name,
                 ["model"] = v => v.Model.Name,
-                ["contactName"] = v => v.ContactName,
-                ["id"] = v => v.Id
+                ["contactName"] = v => v.ContactName
             };
 
-            if (queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
+            query = query.ApplyOrdering(queryObj, columnsMap);
             
             #endregion
 
