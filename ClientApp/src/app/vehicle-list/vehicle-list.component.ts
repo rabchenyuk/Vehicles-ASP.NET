@@ -11,7 +11,9 @@ export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
   // allVehicles: Vehicle[];
   makes: KeyValuePair[];
-  query: any = {};
+  query: any = {
+    pageSize: 3
+  };
   // Render columns dynamically
   columns = [
     // Title: column to render
@@ -67,6 +69,11 @@ export class VehicleListComponent implements OnInit {
       this.query.isSortAscending = true;
     }
 
+    this.populateVehicles();
+  }
+
+  onPageChange(page) {
+    this.query.page = page;
     this.populateVehicles();
   }
 }

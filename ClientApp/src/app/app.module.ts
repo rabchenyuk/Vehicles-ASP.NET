@@ -16,6 +16,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { HttpModule } from '@angular/http';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './shared/pagination.component';
 
 Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').install();
 
@@ -27,7 +28,8 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
     CounterComponent,
     FetchDataComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     FormsModule,

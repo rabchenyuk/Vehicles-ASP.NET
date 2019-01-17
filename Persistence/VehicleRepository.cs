@@ -85,6 +85,10 @@ namespace Vincent.Persistence
             
             #endregion
 
+            #region Paging
+            query = query.ApplyPaging(queryObj);
+            #endregion
+
             return await query.ToListAsync();
         }
 
