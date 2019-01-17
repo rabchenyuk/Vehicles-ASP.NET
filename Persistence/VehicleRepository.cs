@@ -31,7 +31,7 @@ namespace Vincent.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
+        public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery queryObj)
         {
             // Without any filters
             // -----------------------------
@@ -41,6 +41,8 @@ namespace Vincent.Persistence
             //     .Include(v => v.Model)
             //         .ThenInclude(m => m.Make)
             //     .ToListAsync();
+
+            var result = new QueryResult<Vehicle>();
 
             #region Filtering
             // Server-side filtering
@@ -86,10 +88,14 @@ namespace Vincent.Persistence
             #endregion
 
             #region Paging
+            result.TotalItems = await query.CountAsync();
+
             query = query.ApplyPaging(queryObj);
             #endregion
 
-            return await query.ToListAsync();
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public void Add(Vehicle vehicle)

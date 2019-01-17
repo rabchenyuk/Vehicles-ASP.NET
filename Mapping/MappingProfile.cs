@@ -12,6 +12,7 @@ namespace Vincent.Mapping
         {
             // Domain to API Resource
             // From - To
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();

@@ -8,7 +8,7 @@ import { Vehicle, KeyValuePair } from '../models/vehicle';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  vehicles: Vehicle[];
+  queryResult: any = {};
   // allVehicles: Vehicle[];
   makes: KeyValuePair[];
   query: any = {
@@ -41,7 +41,7 @@ export class VehicleListComponent implements OnInit {
 
   private populateVehicles() {
     this.vehicleService.getVehicles(this.query)
-      .subscribe(vehicles => this.vehicles = vehicles);
+      .subscribe(result => this.queryResult = result);
   }
 
   onFilterChange() {
