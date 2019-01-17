@@ -8,11 +8,13 @@ import { Vehicle, KeyValuePair } from '../models/vehicle';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  private readonly PAGE_SIZE = 3;
+
   queryResult: any = {};
   // allVehicles: Vehicle[];
   makes: KeyValuePair[];
   query: any = {
-    pageSize: 3
+    pageSize: this.PAGE_SIZE
   };
   // Render columns dynamically
   columns = [
@@ -46,6 +48,7 @@ export class VehicleListComponent implements OnInit {
 
   onFilterChange() {
     // server filtering
+    this.query.page = 1; // whenever the filter changes, we should reset the page number
     this.populateVehicles();
 
     // client filtering
@@ -57,8 +60,11 @@ export class VehicleListComponent implements OnInit {
   }
 
   resetFilter() {
-    this.query = {};
-    this.onFilterChange();
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE
+    };
+    this.populateVehicles();
   }
 
   sortBy(columnName) {
