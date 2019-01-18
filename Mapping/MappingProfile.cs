@@ -12,6 +12,7 @@ namespace Vincent.Mapping
         {
             // Domain to API Resource
             // From - To
+            CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
             CreateMap<Make, KeyValuePairResource>();
