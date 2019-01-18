@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vincent.Core;
+using Vincent.Core.Models;
 using Vincent.Persistence;
 
 namespace Vincent
@@ -19,11 +20,13 @@ namespace Vincent
             Configuration = configuration;
         }
 
+        // this points to the root of appsettings.Development.json
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
             // Anywhere we add IVehicleRepository to the ctor of the class, ASP.NET will create an instance
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
