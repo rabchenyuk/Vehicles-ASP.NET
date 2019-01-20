@@ -10,7 +10,7 @@ using Vincent.Core;
 namespace Vincent.Migrations
 {
     [DbContext(typeof(VincentDbContext))]
-    [Migration("20190117214245_AddPhoto")]
+    [Migration("20190120104354_AddPhoto")]
     partial class AddPhoto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace Vincent.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int?>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 
@@ -144,7 +144,8 @@ namespace Vincent.Migrations
                 {
                     b.HasOne("Vincent.Core.Models.Vehicle")
                         .WithMany("Photos")
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Vincent.Core.Models.Vehicle", b =>

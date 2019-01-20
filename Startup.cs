@@ -30,6 +30,7 @@ namespace Vincent
             // Anywhere we add IVehicleRepository to the ctor of the class, ASP.NET will create an instance
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
 
             services.AddAutoMapper();
 

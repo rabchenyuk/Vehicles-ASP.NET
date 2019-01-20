@@ -18,6 +18,7 @@ import { HttpModule } from '@angular/http';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { PaginationComponent } from './shared/pagination.component';
 import { ViewVehicleComponent } from './view-vehicle/view-vehicle.component';
+import { PhotoService } from './services/photo.service';
 
 Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').install();
 
@@ -41,10 +42,10 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
     HttpModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
-      { path: 'vehicles', component: VehicleListComponent },
       { path: 'vehicles/new', component: VehicleFormComponent },
-      { path: 'vehicles/:id', component: ViewVehicleComponent },
       { path: 'vehicles/edit/:id', component: VehicleFormComponent },
+      { path: 'vehicles/:id', component: ViewVehicleComponent },
+      { path: 'vehicles', component: VehicleListComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])
@@ -53,7 +54,8 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
   // we tell angular where we need an instance of ErrorHandler is should create and instance of AppErrorHandler
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
-    VehicleService
+    VehicleService,
+    PhotoService
   ],
   bootstrap: [AppComponent]
 })

@@ -78,7 +78,7 @@ namespace Vincent.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int?>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 
@@ -142,7 +142,8 @@ namespace Vincent.Migrations
                 {
                     b.HasOne("Vincent.Core.Models.Vehicle")
                         .WithMany("Photos")
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Vincent.Core.Models.Vehicle", b =>
