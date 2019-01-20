@@ -1,8 +1,9 @@
 import { PhotoService } from './../services/photo.service';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastyService } from 'ng2-toasty';
 import { VehicleService } from '../services/vehicle.service';
+import { ProgressService } from '../services/progress.service';
 
 @Component({
   selector: 'app-view-vehicle',
@@ -16,11 +17,14 @@ export class ViewVehicleComponent implements OnInit {
   vehicleId: number;
   viewMode = 'vehicle';
   photos: any[];
+  progress: any;
 
   constructor(
+    private zone: NgZone,
     private route: ActivatedRoute,
     private router: Router,
     private toasty: ToastyService,
+    private progressService: ProgressService,
     private vehicleService: VehicleService,
     private photoService: PhotoService) {
     route.params.subscribe(p => {
@@ -47,12 +51,6 @@ export class ViewVehicleComponent implements OnInit {
         });
   }
 
-  // scrollToElement($element): void {
-  //   $element.preventDefault();
-  //   console.log($element);
-  //   // $element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-  // }
-
   delete() {
     if (confirm('Are you sure?')) {
       this.vehicleService.delete(this.vehicle.id)
@@ -63,11 +61,32 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   uploadPhoto() {
+    this.progressService.startTracking()
+      .subscribe(progress => {
+        this.zone.run(() => {
+          this.progress = progress;
+        });
+      },
+      null,
+      () => this.progress = null);
+
     const nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    const file = nativeElement.files[0];
+    nativeElement.value = '';
+
     // files[0] - because we are dealing with single file
-    this.photoService.upload(this.vehicleId, nativeElement.files[0])
+    this.photoService.upload(this.vehicleId, file)
       .subscribe(photo => {
         this.photos.push(photo);
+      },
+      err => {
+        this.toasty.error({
+          title: 'Error',
+          msg: err.text(),
+          theme: 'bootstrap',
+          showClose: true,
+          timeout: 5000
+        });
       });
   }
 

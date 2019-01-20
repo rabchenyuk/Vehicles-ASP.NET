@@ -1,3 +1,5 @@
+import { BrowserXhr } from '@angular/http';
+import { BrowserXhrWithProgresss, ProgressService } from './services/progress.service';
 import * as Raven from 'raven-js';
 import { AppErrorHandler } from './app.error-handler';
 import { VehicleService } from './services/vehicle.service';
@@ -54,8 +56,10 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
   // we tell angular where we need an instance of ErrorHandler is should create and instance of AppErrorHandler
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgresss },
     VehicleService,
-    PhotoService
+    PhotoService,
+    ProgressService
   ],
   bootstrap: [AppComponent]
 })
