@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Vincent.Controllers.Resources;
 using Vincent.Core.Models;
 using Vincent.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Vincent.Controllers
 {
@@ -24,6 +25,7 @@ namespace Vincent.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
@@ -43,6 +45,7 @@ namespace Vincent.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
@@ -66,6 +69,7 @@ namespace Vincent.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {

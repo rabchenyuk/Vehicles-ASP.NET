@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { BrowserXhrWithProgresss, ProgressService } from './services/progress.service';
 import * as Raven from 'raven-js';
@@ -21,6 +22,7 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { PaginationComponent } from './shared/pagination.component';
 import { ViewVehicleComponent } from './view-vehicle/view-vehicle.component';
 import { PhotoService } from './services/photo.service';
+import { CallbackComponent } from './callback/callback.component';
 
 Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').install();
 
@@ -34,7 +36,8 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
     VehicleFormComponent,
     VehicleListComponent,
     PaginationComponent,
-    ViewVehicleComponent
+    ViewVehicleComponent,
+    CallbackComponent
   ],
   imports: [
     FormsModule,
@@ -48,6 +51,7 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
       { path: 'vehicles/edit/:id', component: VehicleFormComponent },
       { path: 'vehicles/:id', component: ViewVehicleComponent },
       { path: 'vehicles', component: VehicleListComponent },
+      { path: 'callback', component: CallbackComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])
@@ -59,7 +63,8 @@ Raven.config('https://3a70ad0b86cc45a6a39c83e3c935d461@sentry.io/1367557').insta
     { provide: BrowserXhr, useClass: BrowserXhrWithProgresss },
     VehicleService,
     PhotoService,
-    ProgressService
+    ProgressService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
